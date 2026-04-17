@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro';
 
+export const prerender = false;
+
 export const POST: APIRoute = async ({ request, locals }) => {
   // Cloudflare Workers の環境変数は locals.runtime.env から取得
   const env = (locals as any).runtime?.env ?? {};
