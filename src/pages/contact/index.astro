@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Contact — Stampdoor">
+  <section class="contact-page-hero">
+    <p class="section-label reveal">— contact</p>
+    <h1 class="contact-page-heading reveal">
+      整理されていなくて、<br>構いません。
+    </h1>
+    <p class="contact-page-sub reveal">
+      問い合わせるほどじゃないかな、と思う程度でも歓迎です。<br>
+      話しているうちに、輪郭が見えてくることがあります。
+    </p>
+  </section>
+
+  <section class="contact-form-section">
+    <div id="contact-status" class="contact-status" style="display:none;"></div>
+
+    <form class="contact-form reveal" id="contact-form" novalidate>
+      <!-- ハニーポット -->
+      <div class="contact-honeypot" aria-hidden="true">
+        <label for="website">サイトURL（入力しないでください）</label>
+        <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="contact-field">
+        <label class="contact-label" for="name">お名前 <span class="contact-required">*</span></label>
+        <input class="contact-input" type="text" id="name" name="name" autocomplete="name" placeholder="山田 太郎">
+        <p class="contact-error" id="error-name"></p>
+      </div>
+
+      <div class="contact-field">
+        <label class="contact-label" for="email">メールアドレス <span class="contact-required">*</span></label>
+        <input class="contact-input" type="email" id="email" name="email" autocomplete="email" placeholder="hello@example.com">
+        <p class="contact-error" id="error-email"></p>
+      </div>
+
+      <div class="contact-field">
+        <label class="contact-label" for="subject">件名</label>
+        <input class="contact-input" type="text" id="subject" name="subject" placeholder="Webサイトの制作について など">
+      </div>
+
+      <div class="contact-field">
+        <label class="contact-label" for="message">お問い合わせ内容 <span class="contact-required">*</span></label>
+        <textarea class="contact-textarea" id="message" name="message" rows="8"
+          placeholder="まだ内容がまとまっていなくても大丈夫です。思っていることをそのまま書いてください。"></textarea>
+        <p class="contact-error" id="error-message"></p>
+      </div>
+
+      <div class="contact-field">
+        <p class="contact-label">プライバシーポリシー</p>
+        <div class="contact-privacy-box">
+          <p><strong>個人情報の取り扱いについて</strong></p>
+          <p>お問い合わせフォームにご入力いただいた個人情報（お名前・メールアドレス・お問い合わせ内容）は、以下の目的のみに使用します。</p>
+          <p><strong>利用目的</strong><br>
+          お問い合わせへの返答、および返答に必要な連絡のみに使用します。それ以外の目的には使用しません。</p>
+          <p><strong>第三者への提供</strong><br>
+          法令に基づく場合を除き、ご本人の同意なく第三者に個人情報を提供することはありません。</p>
+          <p><strong>個人情報の管理</strong><br>
+          ご提供いただいた個人情報は、適切な安全管理のもとで取り扱います。お問い合わせへの対応が完了した後は、不要となった情報を適切に廃棄します。</p>
+          <p><strong>お問い合わせ</strong><br>
+          個人情報の取り扱いに関するお問い合わせは、下記メールアドレスまでご連絡ください。<br>
+          info@stampdoor.com</p>
+        </div>
+        <label class="contact-privacy-check">
+          <input type="checkbox" name="privacy" id="privacy">
+          <span>プライバシーポリシーに同意します <span class="contact-required">*</span></span>
+        </label>
+        <p class="contact-error" id="error-privacy"></p>
+      </div>
+
+      <div class="contact-submit-wrap">
+        <button class="contact-submit" type="submit" id="contact-submit">送信する →</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="contact-alt reveal">
+    <p class="section-label">— その他の連絡先</p>
+    <div class="contact-alt-links">
+      <a class="contact-link" id="contact-email-page" href="#">
+        <span class="contact-link-label">email</span>
+        <span class="contact-link-arrow">→</span>
+      </a>
+      <a class="contact-link" href="https://coconala.com/users/414106" target="_blank" rel="noopener">
+        <span class="contact-link-label">coconala</span>
+        <span class="contact-link-arrow">→</span>
+      </a>
+      <a class="contact-link" href="https://x.com/stampdoor" target="_blank" rel="noopener">
+        <span class="contact-link-label">x / twitter</span>
+        <span class="contact-link-arrow">→</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    const el = document.getElementById('contact-email-page');
+    if (!el) return;
+    el.href = 'mailto:' + atob('aW5mb0BzdGFtcGRvb3IuY29t');
+  })();
+
+  const form    = document.getElementById('contact-form');
+  const statusEl = document.getElementById('contact-status');
+  const submitBtn = document.getElementById('contact-submit');
+
+  function showError(id, msg) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('is-visible');
+  }
+
+  function clearError(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = '';
+    el.classList.remove('is-visible');
+  }
+
+  ['name', 'email', 'message'].forEach(function (fieldId) {
+    const input = document.getElementById(fieldId);
+    if (!input) return;
+    input.addEventListener('input', function () {
+      clearError('error-' + fieldId);
+      input.classList.remove('is-invalid');
+    });
+  });
+
+  document.getElementById('privacy')?.addEventListener('change', function () {
+    clearError('error-privacy');
+  });
+
+  form?.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    let valid = true;
+
+    const name    = document.getElementById('name');
+    const email   = document.getElementById('email');
+    const message = document.getElementById('message');
+    const privacy = document.getElementById('privacy');
+
+    if (!name.value.trim()) {
+      showError('error-name', 'お名前を入力してください。');
+      name.classList.add('is-invalid');
+      valid = false;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.value.trim()) {
+      showError('error-email', 'メールアドレスを入力してください。');
+      email.classList.add('is-invalid');
+      valid = false;
+    } else if (!emailPattern.test(email.value.trim())) {
+      showError('error-email', '有効なメールアドレスを入力してください。');
+      email.classList.add('is-invalid');
+      valid = false;
+    }
+
+    if (!message.value.trim()) {
+      showError('error-message', 'お問い合わせ内容を入力してください。');
+      message.classList.add('is-invalid');
+      valid = false;
+    }
+
+    if (!privacy.checked) {
+      showError('error-privacy', 'プライバシーポリシーへの同意が必要です。');
+      valid = false;
+    }
+
+    if (!valid) {
+      const firstInvalid = form.querySelector('.is-invalid, .contact-error.is-visible');
+      if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中…';
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch('/api/contact', { method: 'POST', body: data });
+      const json = await res.json();
+
+      if (json.ok) {
+        form.style.display = 'none';
+        statusEl.className = 'contact-status contact-status--ok reveal visible';
+        statusEl.style.display = '';
+        statusEl.innerHTML = '<p>お問い合わせありがとうございます。</p><p>内容を確認のうえ、折り返しご連絡いたします。</p>';
+      } else {
+        throw new Error('error');
+      }
+    } catch {
+      statusEl.className = 'contact-status contact-status--ng reveal visible';
+      statusEl.style.display = '';
+      statusEl.innerHTML = '<p>送信に失敗しました。お手数ですが、もう一度お試しください。</p>';
+      submitBtn.disabled = false;
+      submitBtn.textContent = '送信する →';
+    }
+  });
+</script>

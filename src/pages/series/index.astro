@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const claudeEpisodes = (await getCollection('claude-series'))
+  .sort((a, b) => a.data.episode - b.data.episode);
+
+const notebooklmEpisodes = (await getCollection('notebooklm-series'))
+  .sort((a, b) => a.data.episode - b.data.episode);
+
+const verificationArticles = await getCollection('verification-series');
+---
+
+<BaseLayout title="Series — Stampdoor">
+  <section class="series-hero">
+    <p class="section-label reveal">— series</p>
+    <h1 class="reveal">stories</h1>
+  </section>
+
+  <div class="series-grid">
+
+    <!-- series 01 -->
+    <div class="series-card reveal">
+      <p class="series-card-num">series 01</p>
+      <h2 class="series-card-title">脳内のジェイソン・ステイサムと対話していたらclaudeが使えるようになってた話</h2>
+      <ul class="series-episode-list">
+        {claudeEpisodes.map(ep => (
+          <li class="series-episode-item">
+            <a href={`/claude-series/${ep.slug}`}>
+              <span class="series-ep-num">{String(ep.data.episode).padStart(2, '0')}</span>
+              <span class="series-ep-title">{ep.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- series 02 -->
+    <div class="series-card reveal">
+      <p class="series-card-num">series 02</p>
+      <h2 class="series-card-title">"相棒"と検証していたらNotebookLMが本当の"相棒"になった話</h2>
+      <ul class="series-episode-list">
+        {notebooklmEpisodes.map(ep => (
+          <li class="series-episode-item">
+            <a href={`/notebooklm-series/${ep.slug}`}>
+              <span class="series-ep-num">{String(ep.data.episode).padStart(2, '0')}</span>
+              <span class="series-ep-title">{ep.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- series 03 -->
+    <div class="series-card reveal">
+      <p class="series-card-num">series 03</p>
+      <h2 class="series-card-title">気になるものを検証してみた</h2>
+      <ul class="series-episode-list">
+        {verificationArticles.map(article => (
+          <li class="series-episode-item">
+            <a href={`/verification-series/${article.slug}`}>
+              <span class="series-ep-num">01</span>
+              <span class="series-ep-title">{article.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+  </div>
+</BaseLayout>

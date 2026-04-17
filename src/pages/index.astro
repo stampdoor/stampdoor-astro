@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Stampdoor">
+  <!-- hero -->
+  <section class="hero">
+    <div class="hero-main">
+      <h1 class="hero-catch">
+        言葉にならないことを、<br>
+        もう少し手前から、<br>
+        <em>聞かせてください。</em>
+      </h1>
+      <div class="hero-rule"></div>
+      <div class="hero-sub">
+        <p>何をどう頼めばいいかわからなくても、構いません。</p>
+        <p>話しているうちに、輪郭が見えてくることがあります。</p>
+        <p>Webのこと、ITのこと、AIのこと。</p>
+        <p class="honest">何ができて、何が難しいか。包まずにお伝えします。</p>
+      </div>
+    </div>
+    <div class="scroll-hint">scroll</div>
+  </section>
+
+  <!-- services -->
+  <section class="services" id="services">
+    <p class="section-label reveal">— services</p>
+    <div class="service-list">
+      <div class="service-item reveal">
+        <span class="service-num">01</span>
+        <div>
+          <p class="service-title">Webサイトの<br>制作・改修</p>
+          <p class="service-desc">新規制作から既存サイトの修正・リニューアルまで。小さな直しでも受けます。</p>
+        </div>
+      </div>
+      <div class="service-item reveal">
+        <span class="service-num">02</span>
+        <div>
+          <p class="service-title">IT活用の相談</p>
+          <p class="service-desc">業務のどこを効率化できるか、何のツールが合うか。一緒に考えます。</p>
+        </div>
+      </div>
+      <div class="service-item reveal">
+        <span class="service-num">03</span>
+        <div>
+          <p class="service-title">AIの使いどころを<br>整理する</p>
+          <p class="service-desc">何にAIを使うべきか、使わないほうがいいか。現実的な話をします。</p>
+        </div>
+      </div>
+      <div class="service-item reveal">
+        <span class="service-num">04</span>
+        <div>
+          <p class="service-title">要件が決まる前の<br>相談</p>
+          <p class="service-desc">「こういうことがしたいんですが…」という段階から話を聞きます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- honest section -->
+  <section class="honest-section" id="about">
+    <div class="honest-left reveal">
+      <p class="section-label">— 仕事の仕方</p>
+      <p class="honest-quote">
+        オブラートに<br>
+        包みません。<br>
+        そのかわり、<br>
+        丁寧に話します。
+      </p>
+    </div>
+    <div class="honest-right">
+      <div class="honest-item reveal">
+        <p class="honest-item-label">on honesty</p>
+        <p class="honest-item-text">何ができて、何が難しいか。包まずにお伝えします。向いていないと思えば、そう伝えます。遠回しにすることで生まれる後悔を、お互いに避けたい。</p>
+      </div>
+      <div class="honest-item reveal">
+        <p class="honest-item-label">on communication</p>
+        <p class="honest-item-text">わからないことを恥ずかしがらなくて大丈夫です。技術的な話は、伝わる言葉に変えて話します。</p>
+      </div>
+      <div class="honest-item reveal">
+        <p class="honest-item-label">on AI</p>
+        <p class="honest-item-text">AIは使えるところに使います。でも、何でもAIで解決できるとは思っていません。限界も含めて、正直に話せます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- contact -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div class="contact-text reveal">
+        <p class="section-label">— contact</p>
+        <p class="contact-heading">
+          もう少し詳しく知りたい方も、<br>
+          話してみたい方も。
+        </p>
+        <p class="contact-note">
+          整理されていなくて構いません。<br>
+          問い合わせるほどじゃないかな、と思う程度でも歓迎です。
+        </p>
+      </div>
+      <div class="contact-links reveal">
+        <a class="contact-link" id="contact-email" href="#">
+          <span class="contact-link-label">email</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a class="contact-link" href="https://coconala.com/users/414106" target="_blank" rel="noopener">
+          <span class="contact-link-label">coconala</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a class="contact-link" href="https://x.com/stampdoor" target="_blank" rel="noopener">
+          <span class="contact-link-label">x / twitter</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a class="contact-link" href="/contact">
+          <span class="contact-link-label">contact form</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    const el = document.getElementById('contact-email');
+    if (!el) return;
+    el.href = 'mailto:' + atob('aW5mb0BzdGFtcGRvb3IuY29t');
+  })();
+</script>

@@ -1,0 +1,189 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'フリーランスWebデザイナー・ITコンサルタント tobari yusuke のサイトです。' } = Astro.props;
+
+import Nav from '../components/Nav.astro';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J37DXSE9LP" is:inline></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J37DXSE9LP');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  {description && <meta name="description" content={description}>}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+  <Nav />
+
+  <slot />
+
+  <footer>
+    <span class="footer-copy">© {new Date().getFullYear()} stampdoor</span>
+    <span class="footer-name">tobari yusuke</span>
+  </footer>
+
+  <script is:inline>
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => io.observe(el));
+  </script>
+
+  <!-- visual effects: orbs + ECG rail -->
+  <script is:inline>
+    /* ── Orbs ── */
+    (function () {
+      const orbs = [
+        { w: 480, h: 320, x: 0.15, y: 0.12, color: 'rgba(238,218,200,0.62)', dur: 18000, delay: 0 },
+        { w: 360, h: 360, x: 0.72, y: 0.35, color: 'rgba(232,208,194,0.55)', dur: 24000, delay: 4000 },
+        { w: 520, h: 260, x: 0.40, y: 0.68, color: 'rgba(240,224,208,0.58)', dur: 20000, delay: 8000 },
+        { w: 300, h: 300, x: 0.82, y: 0.80, color: 'rgba(234,214,196,0.52)', dur: 28000, delay: 2000 },
+        { w: 400, h: 220, x: 0.08, y: 0.55, color: 'rgba(236,220,202,0.56)', dur: 22000, delay: 6000 },
+      ];
+
+      orbs.forEach(cfg => {
+        const el = document.createElement('div');
+        el.className = 'orb';
+        el.style.cssText = `
+          width: ${cfg.w}px;
+          height: ${cfg.h}px;
+          background: ${cfg.color};
+          left: ${cfg.x * 100}%;
+          top: ${cfg.y * 100}%;
+          transform: translate(-50%, -50%);
+        `;
+        document.body.appendChild(el);
+
+        let start = null;
+        const dx = (Math.random() - 0.5) * 60;
+        const dy = (Math.random() - 0.5) * 40;
+
+        function tick(ts) {
+          if (!start) start = ts - cfg.delay;
+          const t = ((ts - start) % cfg.dur) / cfg.dur;
+          const angle = t * Math.PI * 2;
+          const tx = Math.sin(angle) * dx;
+          const ty = Math.cos(angle * 0.7) * dy;
+          const opacity = 0.6 + Math.sin(angle * 1.3) * 0.4;
+          const scale = 1 + Math.sin(angle * 0.9 + 1) * 0.08;
+          el.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${scale})`;
+          el.style.opacity = opacity;
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    })();
+
+    /* ── ECG rail ── */
+    (function () {
+      const W = 44;
+      const canvas = document.createElement('canvas');
+      canvas.id = 'ecg-rail';
+      canvas.style.cssText =
+        'position:fixed;right:56px;top:0;width:' + W + 'px;height:100vh;' +
+        'z-index:50;pointer-events:none;';
+      document.body.appendChild(canvas);
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let H = window.innerHeight;
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        H = window.innerHeight;
+        canvas.width  = W * dpr;
+        canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const CX = W / 2, AMP = W * 0.28, CYCLE = 190, BANDS = 26;
+      let offset = 0, last = null;
+
+      function ecg(t) {
+        t = ((t % 1) + 1) % 1;
+        if (t < 0.10) return 0;
+        if (t < 0.22) return Math.sin((t - 0.10) / 0.12 * Math.PI) * 0.20;
+        if (t < 0.30) return 0;
+        if (t < 0.335) return -(t - 0.30) / 0.035 * 0.30;
+        if (t < 0.368) return -0.30 + (t - 0.335) / 0.033 * 1.30;
+        if (t < 0.405) return  1.00 - (t - 0.368) / 0.037 * 1.42;
+        if (t < 0.455) return -0.42 + (t - 0.405) / 0.050 * 0.42;
+        if (t < 0.525) return 0;
+        if (t < 0.760) return Math.sin((t - 0.525) / 0.235 * Math.PI) * 0.30;
+        return 0;
+      }
+
+      function draw(ts) {
+        if (last === null) last = ts;
+        const dt = Math.min(ts - last, 50);
+        last = ts;
+        offset += dt * 0.24;
+        ctx.clearRect(0, 0, W, H);
+        const bandH = H / BANDS;
+        for (let b = 0; b < BANDS; b++) {
+          const y0 = Math.floor(b * bandH);
+          const y1 = Math.floor((b + 1) * bandH);
+          const alpha = Math.pow((b + 1) / BANDS, 1.7) * 0.70;
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(184,113,78,' + alpha.toFixed(3) + ')';
+          ctx.lineWidth = 1.4;
+          ctx.lineJoin = 'round';
+          ctx.lineCap = 'round';
+          for (let y = y0; y <= y1; y++) {
+            const x = CX + ecg((y + offset) / CYCLE) * AMP;
+            if (y === y0) ctx.moveTo(x, y);
+            else          ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+        const hx = CX + ecg((H + offset) / CYCLE) * AMP;
+        const g = ctx.createRadialGradient(hx, H - 1, 0, hx, H - 1, 14);
+        g.addColorStop(0,    'rgba(184,113,78,0.85)');
+        g.addColorStop(0.35, 'rgba(184,113,78,0.28)');
+        g.addColorStop(1,    'rgba(184,113,78,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(hx, H - 1, 14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(184,113,78,0.95)';
+        ctx.beginPath();
+        ctx.arc(hx, H - 1, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+
+      const mq = window.matchMedia('(max-width: 720px)');
+      function onMQ(e) { canvas.style.display = e.matches ? 'none' : ''; }
+      mq.addEventListener('change', onMQ);
+      onMQ(mq);
+    })();
+  </script>
+</body>
+</html>

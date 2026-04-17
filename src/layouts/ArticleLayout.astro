@@ -1,0 +1,67 @@
+---
+interface Props {
+  title: string;
+  seriesLabel: string;
+  description?: string;
+  points?: string[];
+  evaluation?: string;
+  epilogue?: string;
+  prevUrl?: string;
+  prevLabel?: string;
+  nextUrl?: string;
+  nextLabel?: string;
+}
+
+const {
+  title,
+  seriesLabel,
+  description,
+  points,
+  evaluation,
+  epilogue,
+  prevUrl,
+  prevLabel,
+  nextUrl,
+  nextLabel,
+} = Astro.props;
+
+import BaseLayout from './BaseLayout.astro';
+---
+
+<BaseLayout title={`${title} | Stampdoor`} description={description}>
+  <section class="article-hero reveal">
+    <p class="article-series-label">— {seriesLabel}</p>
+    <h1 class="article-title">{title}</h1>
+  </section>
+
+  <article class="article-body">
+    <slot />
+
+    {points && points.length > 0 && (
+      <div class="article-points reveal">
+        <p class="section-label">— この話のポイント</p>
+        <p>私が今回気づいたこと：</p>
+        <ul>
+          {points.map(point => <li>{point}</li>)}
+        </ul>
+        {evaluation && (
+          <p class="article-stacey-eval">
+            <strong>{evaluation}</strong>
+          </p>
+        )}
+      </div>
+    )}
+
+    {epilogue && (
+      <p class="article-epilogue reveal">{epilogue}</p>
+    )}
+  </article>
+
+  <div class="article-footer-nav reveal">
+    {prevUrl
+      ? <a href={prevUrl}>← {prevLabel ?? '前の話を読む'}</a>
+      : <span></span>
+    }
+    {nextUrl && <a href={nextUrl}>{nextLabel ?? '次の話を読む'} →</a>}
+  </div>
+</BaseLayout>

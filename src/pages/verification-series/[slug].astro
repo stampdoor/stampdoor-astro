@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('verification-series');
+  return articles.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const { title, description } = entry.data;
+---
+
+<BaseLayout title={`${title} | Stampdoor`} description={description}>
+  <section class="article-hero reveal">
+    <p class="article-series-label">— 検証シリーズ</p>
+    <h1 class="article-title">{title}</h1>
+  </section>
+
+  <article class="article-body">
+    <Content />
+  </article>
+
+  <div class="article-footer-nav reveal">
+    <a href="/series">← シリーズ一覧に戻る</a>
+  </div>
+</BaseLayout>
