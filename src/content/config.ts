@@ -12,6 +12,8 @@ const episodeSchema = z.object({
 
 const articleSchema = z.object({
   title: z.string(),
+  seriesLabel: z.string().optional(),
+  date: z.string().optional(),
   description: z.string().optional(),
 });
 

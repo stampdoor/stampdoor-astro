@@ -12,13 +12,14 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
-const { title, description } = entry.data;
+const { title, seriesLabel, date, description } = entry.data;
 ---
 
 <BaseLayout title={`${title} | Stampdoor`} description={description}>
   <section class="article-hero reveal">
-    <p class="article-series-label">— 検証シリーズ</p>
+    <p class="article-series-label">{seriesLabel ?? '— 検証シリーズ'}</p>
     <h1 class="article-title">{title}</h1>
+    {date && <p class="article-date">{date}</p>}
   </section>
 
   <article class="article-body">
