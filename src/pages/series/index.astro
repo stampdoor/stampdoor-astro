@@ -8,6 +8,9 @@ const claudeEpisodes = (await getCollection('claude-series'))
 const notebooklmEpisodes = (await getCollection('notebooklm-series'))
   .sort((a, b) => a.data.episode - b.data.episode);
 
+const obsidianEpisodes = (await getCollection('obsidian-series'))
+  .sort((a, b) => a.data.episode - b.data.episode);
+
 const verificationArticles = await getCollection('verification-series');
 ---
 
@@ -54,6 +57,22 @@ const verificationArticles = await getCollection('verification-series');
     <!-- series 03 -->
     <div class="series-card reveal">
       <p class="series-card-num">series 03</p>
+      <h2 class="series-card-title">Obsidianではじめる「考える」の設計図</h2>
+      <ul class="series-episode-list">
+        {obsidianEpisodes.map(ep => (
+          <li class="series-episode-item">
+            <a href={`/obsidian-series/${ep.slug}`}>
+              <span class="series-ep-num">{String(ep.data.episode).padStart(2, '0')}</span>
+              <span class="series-ep-title">{ep.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- series 04 -->
+    <div class="series-card reveal">
+      <p class="series-card-num">series 04</p>
       <h2 class="series-card-title">気になるものを検証してみた</h2>
       <ul class="series-episode-list">
         {verificationArticles.map(article => (

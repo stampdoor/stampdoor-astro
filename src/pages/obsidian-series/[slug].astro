@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const episodes = await getCollection('obsidian-series');
+  const sorted = episodes.sort((a, b) => a.data.episode - b.data.episode);
+
+  return sorted.map((entry, i) => ({
+    params: { slug: entry.slug },
+    props: {
+      entry,
+      prev: sorted[i - 1] ?? null,
+      next: sorted[i + 1] ?? null,
+    },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await entry.render();
+const { title, seriesLabel, description, points, evaluation, epilogue } = entry.data;
+---
+
+<ArticleLayout
+  title={title}
+  seriesLabel={seriesLabel}
+  description={description}
+  points={points}
+  evaluation={evaluation}
+  epilogue={epilogue}
+  prevUrl={prev ? `/obsidian-series/${prev.slug}` : undefined}
+  prevLabel="前の話を読む"
+  nextUrl={next ? `/obsidian-series/${next.slug}` : undefined}
+  nextLabel="次の話を読む"
+>
+  <Content />
+</ArticleLayout>

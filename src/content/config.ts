@@ -20,5 +20,6 @@ const articleSchema = z.object({
 export const collections = {
   'claude-series': defineCollection({ type: 'content', schema: episodeSchema }),
   'notebooklm-series': defineCollection({ type: 'content', schema: episodeSchema }),
+  'obsidian-series': defineCollection({ type: 'content', schema: episodeSchema }),
   'verification-series': defineCollection({ type: 'content', schema: articleSchema }),
 };
