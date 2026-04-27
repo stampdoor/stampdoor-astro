@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — Stampdoor" description="お探しのページは見つかりませんでした。">
+  <section class="notfound">
+    <p class="section-label reveal">— 404</p>
+    <h1 class="notfound-code reveal">404</h1>
+    <p class="notfound-text reveal">お探しのページは、見つかりませんでした。</p>
+    <p class="notfound-sub reveal">URLが変わったか、削除された可能性があります。</p>
+
+    <div class="notfound-links reveal">
+      <a href="/">トップへ戻る →</a>
+      <a href="/series">連載一覧を見る →</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 160px 32px 200px;
+    text-align: center;
+  }
+
+  .notfound-code {
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    font-size: clamp(96px, 18vw, 184px);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    margin: 24px 0 32px;
+    color: var(--ink);
+  }
+
+  .notfound-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(18px, 2.4vw, 22px);
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .notfound-sub {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-mid);
+    margin-bottom: 56px;
+  }
+
+  .notfound-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .notfound-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--ink-mid);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink-light);
+    padding-bottom: 4px;
+    transition: color .2s, border-color .2s;
+  }
+
+  .notfound-links a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+
+  @media (max-width: 720px) {
+    .notfound { padding: 120px 24px 160px; }
+  }
+</style>
